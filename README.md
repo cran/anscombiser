@@ -3,14 +3,16 @@
 
 # anscombiser
 
-[![Travis-CI Build
-Status](https://travis-ci.org/paulnorthrop/anscombiser.svg?branch=main)](https://travis-ci.org/paulnorthrop/anscombiser)
 [![AppVeyor Build
 Status](https://ci.appveyor.com/api/projects/status/github/paulnorthrop/anscombiser?branch=main&svg=true)](https://ci.appveyor.com/project/paulnorthrop/anscombiser)
+[![R-CMD-check](https://github.com/paulnorthrop/anscombiser/workflows/R-CMD-check/badge.svg)](https://github.com/paulnorthrop/anscombiser/actions)
 [![Coverage
 Status](https://codecov.io/github/paulnorthrop/anscombiser/coverage.svg?branch=main)](https://codecov.io/github/paulnorthrop/anscombiser?branch=master)
-
-## Title
+[![CRAN_Status_Badge](https://www.r-pkg.org/badges/version/anscombiser)](https://cran.r-project.org/package=anscombiser)
+[![Downloads
+(monthly)](https://cranlogs.r-pkg.org/badges/anscombiser?color=brightgreen)](https://cran.r-project.org/package=anscombiser)
+[![Downloads
+(total)](https://cranlogs.r-pkg.org/badges/grand-total/anscombiser?color=brightgreen)](https://cran.r-project.org/package=anscombiser)
 
 ### What does anscombiser do?
 
@@ -27,9 +29,9 @@ statistics.
 
 ### An example
 
-The `mimic()` function transforms an input dataset (`dino` below) so
-that it has the same values of Anscombe’s summary statistics as another
-dataset (`trump` below).
+The `mimic()` function transforms an input dataset (`dino` below left)
+so that it has the same values of Anscombe’s summary statistics as
+another dataset (`trump` below right).
 
 ``` r
 library(anscombiser)
@@ -46,6 +48,13 @@ In this example these images had similar summary statistics from the
 outset and therefore the appearance of the `dino` dataset has changed
 little. Otherwise, the first dataset will be deformed but its general
 shape will still be recognisable.
+
+The rotation applied to the input dataset is not unique. The function
+`mimic` (and a function `anscombise` that is specific to Anscombe’s
+quartet) has an argument `idempotent` that controls how the rotation is
+performed. In the special case where the input dataset already has the
+desired summary statistics, using `idempotent = TRUE` ensures that the
+output dataset is the same as the input dataset.
 
 ### Installation
 

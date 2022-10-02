@@ -9,6 +9,10 @@ library(anscombiser)
 opar <- graphics::par(no.readonly = TRUE)
 graphics::par(mar = c(4, 4, 1, 1))
 
+## -----------------------------------------------------------------------------
+a2 <- anscombise(input2, which = 4)
+plot(a2)
+
 ## ----anscombe-----------------------------------------------------------------
 new_faithful <- anscombise(datasets::faithful, which = 4)
 plot(new_faithful)

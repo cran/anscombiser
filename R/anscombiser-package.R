@@ -19,26 +19,16 @@
 #'   * [`mimic`], which modified a user-supplied dataset so that is shares
 #'     sample summary statistics with another user-supplied dataset.
 #'
-#'   See \code{vignette("intro-to-anscombiser", package = "anscombiser")} for
+#'   See `vignette("intro-to-anscombiser", package = "anscombiser")` for
 #'   an overview of the package.
 #' @references Anscombe, F. J. (1973). Graphs in Statistical Analysis.
 #'   The American Statistician 27 (1): 17–21.
-#'   \url{https://doi.org/10.1080/00031305.1973.10478966}.
+#'   \doi{10.1080/00031305.1973.10478966}
 #' @seealso [`anscombise`] and [`mimic`]
 #' @importFrom graphics plot
+#' @md
 #' @docType package
-#' @name anscombiser
-#' @md
-NULL
-
-#' Donald Trump
-#'
-#' A dataset that provides an image of Donald Trump's face.
-#'
-#' @format A matrix with 4885 rows and 2 columns: `x` and `y`.
-#' @source This image was created by Accentaur from the Noun Project.
-#' \url{https://thenounproject.com/term/donald-trump/727774/}
-#' @md
-"trump"
-
+#' @aliases anscombiser-package
+#' @aliases anscombiser
+"_PACKAGE"
 

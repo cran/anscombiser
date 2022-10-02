@@ -4,29 +4,37 @@
 \alias{anscombise}
 \title{Create new versions of Anscombe's quartet}
 \usage{
-anscombise(x, which = 1)
+anscombise(x, which = 1, idempotent = TRUE)
 }
 \arguments{
 \item{x}{A numeric matrix or data frame.  Each column contains observations
 on a different variable.  Missing observations are not allowed.}
 
-\item{which}{An integer in \{1, 2, 3, 4\}.  Which of Anscombe's dataset to
-use.  Obviously, this makes very little difference.}
+\item{which}{An integer in \{1, 2, 3, 4\}.  Which of Anscombe's datasets to
+use as the target dataset.  Obviously, this makes very little difference.}
+
+\item{idempotent}{A logical scalar. If \code{idempotent = TRUE} then applying
+\code{anscombise} to one of the datasets in Anscombe's Quartet will return
+the dataset unchanged, apart from a change of \code{\link{class}}. If
+\code{idempotent = FALSE} then the returned dataset will be a rotated version
+of the original dataset, with the same summary statistics. See \strong{Details}.}
 }
 \value{
-An object of class \code{c("anscombe", class(x))}. A dataset with the
-same format as \code{x}.  The returned dataset has the following summary
-statistics in common with Anscombe's quartet.
+An object of class \code{c("anscombe", "matrix", "array")} with
+\link[=plot.anscombe]{plot} and \link[=print.anscombe]{print} methods. This returned
+dataset has the following summary statistics in common with Anscombe's
+quartet.
 \itemize{
 \item The sample means of each variable.
 \item The sample variances of each variable.
 \item The sample correlation matrix.
 \item The estimated regression coefficients from least squares linear
 regressions of each variable on each other variable.
+}
+
 The target and new summary statistics are returned as attributes
 \code{old_stats} and \code{new_stats} and the chosen Anscombe's quartet dataset as
 an attribute \code{old_data}.
-}
 }
 \description{
 Modifies a dataset \code{x} so that it shares sample summary statistics with
@@ -36,8 +44,36 @@ Modifies a dataset \code{x} so that it shares sample summary statistics with
 The input dataset \code{x} is modified by shifting, scaling and rotating
 it so that its sample mean and covariance matrix match those of the
 Anscombe quartet.
+
+The rotation is based on the square root of the sample correlation matrix.
+If \code{idempotent = FALSE} then this square root is based on the Cholesky
+decomposition this matrix, using \code{\link{chol}}. If \code{idempotent = TRUE} the
+square root is based on the spectral decomposition of this matrix, using
+the output from \code{\link{eigen}}. This is a minimal rotation square root,
+which means that if the input data \code{x} already have the
+exactly/approximately the required summary statistics then the returned
+dataset is exactly/approximately the same as the target dataset.
 }
 \examples{
+# Produce Anscombe-like datasets using input1 to input8
+
+a1 <- anscombise(input1, idempotent = FALSE)
+plot(a1)
+a2 <- anscombise(input2)
+plot(a2)
+a3 <- anscombise(input3, idempotent = FALSE)
+plot(a3)
+a4 <- anscombise(input4, idempotent = FALSE)
+plot(a4)
+a5 <- anscombise(input5, idempotent = FALSE)
+plot(a5)
+a6 <- anscombise(input6)
+plot(a6)
+a7 <- anscombise(input7, idempotent = FALSE)
+plot(a7)
+a8 <- anscombise(input8, idempotent = FALSE)
+plot(a8)
+
 # Old faithful to new faithful
 new_faithful <- anscombise(datasets::faithful, which = 4)
 plot(new_faithful)
@@ -55,4 +91,10 @@ if (got_maps) {
 \seealso{
 \code{\link{mimic}} to modify a dataset to share sample summary statistics
 with another dataset.
+
+\code{\link[datasets:anscombe]{datasets::anscombe}} for Anscombe's Quartet and \code{\link{anscombe}} for
+Anscombe's Quartet as 4 separate datasets.
+
+\code{\link{input_datasets}}: \code{input1} to \code{input8} for some input datasest
+of the same size as those in Anscombe's quartet.
 }

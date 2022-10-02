@@ -4,38 +4,56 @@
 \alias{mimic}
 \title{Modify a dataset to mimic another dataset}
 \usage{
-mimic(x, x2, ...)
+mimic(x, x2, idempotent = TRUE, ...)
 }
 \arguments{
 \item{x, x2}{Numeric matrices or data frames.  Each column contains observations
 on a different variable.  Missing observations are not allowed.
 \code{\link{get_stats}}\code{(x2)} sets the target summary statistics. If \code{x2} is missing
 then \code{\link{set_stats}} is called with \code{d = ncol(x)} and any additional arguments
-supplied via \code{...}.}
+supplied via \code{...}.  This can be used to set target summary statistics
+(means, variances and/or correlations).}
+
+\item{idempotent}{A logical scalar. If \code{idempotent = TRUE} then
+\code{mimic(x, x)} returns \code{x}, apart from a change of \code{\link{class}}. If
+\code{idempotent = FALSE} then the returned dataset may be a rotated version of
+the original dataset, with the same summary statistics. See \strong{Details}.}
 
 \item{...}{Additional arguments to be passed to \code{\link{set_stats}}.}
 }
 \value{
-A dataset with the same format as \code{x}.  The returned dataset has the
-following summary statistics in common with \code{x2}.
+An object of class \code{c("anscombe", "matrix", "array")} with
+\link[=plot.anscombe]{plot} and \link[=print.anscombe]{print} methods. This returned
+dataset has the following summary statistics in common with \code{x2}.
 \itemize{
 \item The sample means of each variable.
 \item The sample variances of each variable.
 \item The sample correlation matrix.
 \item The estimated regression coefficients from least squares linear
 regressions of each variable on each other variable.
+}
+
 The target and new summary statistics are returned as attributes
 \code{old_stats} and \code{new_stats}.
 If \code{x2} is supplied then it is returned as a attribute \code{old_data}.
 }
-}
 \description{
 Modifies a dataset \code{x} so that it shares sample summary statistics with
-another dataset \code{x2}.  `
+a target dataset \code{x2}.
 }
 \details{
 The input dataset \code{x} is modified by shifting, scaling and rotating
-it so that its sample mean and covariance matrix match those of \code{x2}.
+it so that its sample mean and covariance matrix match those of the target
+dataset \code{x2}.
+
+The rotation is based on the square root of the sample correlation matrix.
+If \code{idempotent = FALSE} then this square root is based on the Cholesky
+decomposition this matrix, using \code{\link{chol}}. If \code{idempotent = TRUE} the
+square root is based on the spectral decomposition of this matrix, using
+the output from \code{\link{eigen}}. This is a minimal rotation square root,
+which means that if the input data \code{x} already have the
+exactly/approximately the required summary statistics then the returned
+dataset is exactly/approximately the same as the target dataset \code{x2}.
 }
 \examples{
 ### 2D examples
